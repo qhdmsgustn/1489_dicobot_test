@@ -33,4 +33,4 @@ if __name__ == "__main__":
     #객체 생성
     client = chatbot()
     #Token 값을 통해 로그인하고 봇 실행
-    client.run("NzMxNzk5MDg4MjQ4NTIwNzMy.XwrUAA.NZPe64IrpbPPMq8x1V-zC8DXq9M")
+    client.run("토큰")
