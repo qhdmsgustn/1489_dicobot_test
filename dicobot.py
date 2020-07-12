@@ -2,7 +2,7 @@ import discord
 from discord.utils import get
 from discord.ext import commands
 
-token="NzMxNzk5MDg4MjQ4NTIwNzMy.XwswRw.x2pbekOinHCq4IcKzuuhEuI5yOE"
+token="토큰을 넣으세요"
 
 client = commands.Bot(command_prefix = '!') 
 client.remove_command('help')
