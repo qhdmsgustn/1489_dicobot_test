@@ -3,7 +3,7 @@ from googletrans import Translator
 from discord.utils import get
 from discord.ext import commands
 
-token="TOKEN"
+token="NzMxNzk5MDg4MjQ4NTIwNzMy.XwxIYQ.kCEuQgC9gmoGSWC8o9LYa39H4C4"
 
 #명령어
 client = commands.Bot(command_prefix = '!') 
@@ -31,6 +31,15 @@ async def change_text(ctx,*,to_language):
 #출력  
     await ctx.send(f"{ctx.author.mention}"+from_language)
 
+###명령어(목록)###
+
+@client.command(name="help")
+async def helper(ctx):
+    embed=discord.Embed(title="설명서(manual)", color=0x009dff)
+    embed.set_author(name="통역관")
+    embed.add_field(name="!! (text)", value="If you write !!(Space Bar)(content), Korean will be translated into English and other languages ​​will be translated into Korean\n!!(띄어쓰기)(내용)치면 알아서 번역해줌", inline=False)
+    embed.add_field(name="!안녕", value="Say hello\n인사해줌", inline=True)
+    await ctx.channel.send(embed=embed)
 
 ###명령어(대화)###
 
