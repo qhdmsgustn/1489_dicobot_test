@@ -21,7 +21,7 @@ Button시작:
         Gui,Submit,NoHide
         GuiControl, , A, 시작1
 
-        ImageSearch, vx, vy, 950, 400, 1100, 500,*50 a.png
+        ImageSearch, vx, vy, 1100, 450, 1200, 520,*50 a.png
         If(ErrorLevel=0)
         {
             Sleep, 500
