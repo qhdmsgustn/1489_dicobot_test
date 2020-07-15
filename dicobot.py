@@ -4,13 +4,19 @@ from googletrans import Translator
 from discord.utils import get
 from discord.ext import commands
 
-###최강의 지도자 리스트
-chlrkd_list=['20200720','20200803','20200817','20200831','20200914','20200928','20201012','20201026','20201109','20201123','20201207','20201221','20210104','20210118','20210201','20210215','20210301','20210315','20210329','20210412','20210426','20210510','20210524','20210607','20210621','20210705','20210719','20210802']
+###최지자 리스트 1명 = 4회
+chlrkd_list=[['20200720','20200803','20200817','20200831'],['20200914','20200928','20201012','20201026'],['20201109','20201123','20201207','20201221'],['20210104','20210118','20210201','20210215'],['20210301','20210315','20210329','20210412'],['20210426','20210510','20210524','20210607'],['20210621','20210705','20210719','20210802']]
 chlrkd_name=['살라딘','콘스탄티누스','토미리스','아틸라','레오니다스','아르테미시아','테오도라']
-###돌림판 리스트
-ehffla_list=['20200623','20200707','20200721','20200804','20200818','20200901','20200915','20200929','20201013','20201027','20201110','20201124','20201208','20201222','20210105','20210119','20210202','20210216','20210302','20210316','20210330','20210413','20210427','20210511','20210525','20210608','20210622','20210706']
+chlrkd_list_temp=[]
+chlrkd_name_temp=[]
+
+###돌림판 리스트 1명 = 3회 + 1황뚝
+ehffla_list=[['20200623','20200707','20200721','20200804'],['20200818','20200901','20200915','20200929'],['20201013','20201027','20201110','20201124'],['20201208','20201222','20210105','20210119'],['20210202','20210216','20210302','20210316'],['20210330','20210413','20210427','20210511'],['20210525','20210608','20210622','20210706']]
 ehffla_name=['칭기즈칸','알렉산더','우드스톡','다케다신겐','관우','람세스','이순신']
-token="NzMxNzk5MDg4MjQ4NTIwNzMy.Xw31-w.Hu9UU_8yKn2EkB1PZOeDhJ92gzc"
+ehffla_list_temp=[]
+ehffla_name_temp=[]
+
+token="token"
 
 #명령어
 client = commands.Bot(command_prefix = '!') 
@@ -49,7 +55,7 @@ async def helper(ctx):
     embed.add_field(name="!돌림판", value="돌림판 날짜", inline=True)
     await ctx.channel.send(embed=embed)
 
-###명령어(대화)###
+######명령어(대화)######
 
 @client.command(aliases=['안녕','안녕하세요', 'ㅎㅇ','hi', 'HI','Hello','HELLO'])
 async def a1(ctx):
@@ -63,30 +69,49 @@ async def a2(ctx):
 async def a3(ctx):
     await ctx.send("무엇을 넣을까")
 
-@client.command(name="최지")
-async def a4(ctx):
+@client.command(name="최지", pass_context=True)
+async def a4(ctx,arg):
     ###시간계산###
-    now_time = datetime.utcnow()
-    choice_time = datetime.strptime(chlrkd_list[0],'%Y%m%d')
+    now_time_chlrkd = datetime.utcnow()
 
-    result_time = choice_time-now_time
+
+##살라딘 [1,2,3,4] [날짜비교 지난거는 x]
     
-    embed=discord.Embed(title="최강의지도자", color=0x009dff)
-    #for chlrkd_Name in chlrkd_name:
-        #for chlrkd_List in chlrkd_list(range(0,2)):
-    embed.add_field(name="살라딘", value="카운트다운: "+str(result_time.days)+"일 "+str(timedelta(seconds=result_time.seconds)), inline=True)        
-    await ctx.channel.send(embed=embed)
+    if arg!=None:
+        if arg in chlrkd_name:
+            ### 시간 계산
+            choice_time_chlrkd = datetime.strptime(chlrkd_list[chlrkd_name.index(arg)][0],'%Y%m%d')
+            result_time_chlrkd = choice_time_chlrkd-now_time_chlrkd
+            
+            ###출력부분
+            embed=discord.Embed(title="최강의지도자", color=0x009dff)
+            embed.add_field(name=arg+"{}차"), value="카운트다운: "+str(result_time_chlrkd.days)+"일 "+str(timedelta(seconds=result_time_chlrkd.seconds)), inline=True)        
+            await ctx.channel.send(embed=embed)
+
+        else:
+            await ctx.send(f"{ctx.author.mention}님 [ !최지목록 ] 을 확인해주세요.")
+
+    else:
+        choice_time_chlrkd = datetime.strptime(chlrkd_list[chlrkd_name.index(arg)][0],'%Y%m%d')
+        result_time_chlrkd = choice_time_chlrkd-now_time_chlrkd
+        embed=discord.Embed(title="최강의지도자", color=0x009dff)
+        embed.add_field(name=chlrkd_name[0], value="카운트다운: "+str(result_time_chlrkd.days)+"일 "+str(timedelta(seconds=result_time_chlrkd.seconds)), inline=True)        
+        await ctx.channel.send(embed=embed)
 
 @client.command(name="돌림판")
-async def a5(ctx):
+async def a6(ctx,arg):
+    ###시간계산###
+    now_time_ehffla = datetime.utcnow()
+    choice_time_ehffla = datetime.strptime(ehffla_list[0],'%Y%m%d')
+
+    result_time_ehffla = choice_time_ehffla-now_time_ehffla
+    
     embed=discord.Embed(title="돌려돌려돌림판", color=0x009dff)
-    embed.add_field(name="칭기즈칸", value="Say hello\n인사해줌", inline=True)
+    embed.add_field(name=ehffla_name[0], value="카운트다운: "+str(result_time_ehffla.days)+"일 "+str(timedelta(seconds=result_time_ehffla.seconds)), inline=True)
     await ctx.channel.send(embed=embed)
 
 
 client.run(token)
-
-
 
 
 ###채팅방 지우기###
