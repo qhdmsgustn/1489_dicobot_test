@@ -16,7 +16,7 @@ ehffla_name=['칭기즈칸','알렉산더','우드스톡','다케다신겐','관
 ehffla_list_temp=[]
 ehffla_name_temp=[]
 
-token="token"
+token="TOKEN"
 
 #명령어
 client = commands.Bot(command_prefix = '!') 
