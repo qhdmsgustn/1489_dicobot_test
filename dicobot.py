@@ -6,7 +6,8 @@ from discord.ext import commands
 
 ###최지자 리스트 1명 = 4회
 chlrkd_list=[['20200720','20200803','20200817','20200831'],['20200914','20200928','20201012','20201026'],['20201109','20201123','20201207','20201221'],['20210104','20210118','20210201','20210215'],['20210301','20210315','20210329','20210412'],['20210426','20210510','20210524','20210607'],['20210621','20210705','20210719','20210802']]
-chlrkd_name=['살라딘','콘스탄티누스','토미리스','아틸라','레오니다스','아르테미시아','테오도라']
+chlrkd_name={'살라':'살라딘','콘스':'콘스탄티누스 1세','토미':'토미리스','아틸':'아틸라','레오':'레오니다스 1세','아르':'아르테미시아 1세','테오':'테오도라'}
+chlrkd_name_list=['살라딘','콘스탄티누스 1세','토미리스','아틸라','레오니다스 1세','아르테미시아 1세','테오도라']
 chlrkd_list_temp=[]
 chlrkd_name_temp=[]
 
@@ -16,7 +17,7 @@ ehffla_name=['칭기즈칸','알렉산더','우드스톡','다케다신겐','관
 ehffla_list_temp=[]
 ehffla_name_temp=[]
 
-token="TOKEN"
+token="TOK EN"
 
 #명령어
 client = commands.Bot(command_prefix = '!') 
@@ -69,34 +70,43 @@ async def a2(ctx):
 async def a3(ctx):
     await ctx.send("무엇을 넣을까")
 
+@client.command(name="최지목록")
+async def a4_1(ctx):
+    embed=discord.Embed(title="최지 목록", description="!최지 [이름] ex) !최지 살라")
+    embed.add_field(name="살라", value="살라딘", inline=True)
+    embed.add_field(name="콘스", value="콘스탄티누스 1세", inline=True)
+    embed.add_field(name="토미", value="토미리스", inline=True)
+    embed.add_field(name="아틸", value="아틸라", inline=True)
+    embed.add_field(name="레오", value="레오니다스 1세", inline=True)
+    embed.add_field(name="아르", value="아르테미시아 1세", inline=True)
+    embed.add_field(name="테오", value="테오도라", inline=True)
+    await ctx.channel.send(embed=embed)
+
 @client.command(name="최지", pass_context=True)
 async def a4(ctx,arg):
     ###시간계산###
     now_time_chlrkd = datetime.utcnow()
 
-
 ##살라딘 [1,2,3,4] [날짜비교 지난거는 x]
     
-    if arg!=None:
-        if arg in chlrkd_name:
-            ### 시간 계산
-            choice_time_chlrkd = datetime.strptime(chlrkd_list[chlrkd_name.index(arg)][0],'%Y%m%d')
-            result_time_chlrkd = choice_time_chlrkd-now_time_chlrkd
-            
-            ###출력부분
-            embed=discord.Embed(title="최강의지도자", color=0x009dff)
-            embed.add_field(name=arg+"{}차"), value="카운트다운: "+str(result_time_chlrkd.days)+"일 "+str(timedelta(seconds=result_time_chlrkd.seconds)), inline=True)        
-            await ctx.channel.send(embed=embed)
-
-        else:
-            await ctx.send(f"{ctx.author.mention}님 [ !최지목록 ] 을 확인해주세요.")
-
-    else:
-        choice_time_chlrkd = datetime.strptime(chlrkd_list[chlrkd_name.index(arg)][0],'%Y%m%d')
+    if arg in chlrkd_name.keys():
+        ### 딕셔너리 > 리스트
+        temp = chlrkd_name[arg]
+        ### 시간 계산
+        choice_time_chlrkd = datetime.strptime(chlrkd_list[chlrkd_name_list.index(temp)][0],'%Y%m%d')
         result_time_chlrkd = choice_time_chlrkd-now_time_chlrkd
+            
+        ###출력부분
         embed=discord.Embed(title="최강의지도자", color=0x009dff)
-        embed.add_field(name=chlrkd_name[0], value="카운트다운: "+str(result_time_chlrkd.days)+"일 "+str(timedelta(seconds=result_time_chlrkd.seconds)), inline=True)        
+        embed.add_field(name=temp+" [1차]", value="카운트다운: "+str(result_time_chlrkd.days)+"일 "+str(timedelta(seconds=result_time_chlrkd.seconds)), inline=True)     
         await ctx.channel.send(embed=embed)
+    else:
+        await ctx.send(f"{ctx.author.mention}님 [ !최지목록 ] 을 확인해주세요.")
+
+@a4.error
+async def a4(ctx,error):
+    if isinstance(error,commands.MissingRequiredArgument):
+        await ctx.send(f"{ctx.author.mention}님 [ !최지목록 ] 을 확인해주세요.")
 
 @client.command(name="돌림판")
 async def a6(ctx,arg):
